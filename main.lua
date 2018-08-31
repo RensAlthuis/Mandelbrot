@@ -1,5 +1,3 @@
-
-
 function love.draw()
 	love.graphics.setBackgroundColor( 50, 50, 50 )
 	love.graphics.clear()
@@ -15,18 +13,18 @@ function love.load()
 	require("img");
 	require("menu");
 	W,H = love.graphics.getDimensions();
-	love.graphics.setPointStyle("rough");
-    
+
+
     --CREATING MENU BUTTONS
 	menu.button(1200,100,100,40,"new image",
-		function() 
+		function()
 			img.frequency = 2;
 			colorTable = img.new(seed+1,img.frequency)
 			img.setImg(colorTable);
 		end
 	);
 	menu.button(1200,150,100,40,"Layer",
-		function() 
+		function()
 			if colorTable ~= nil then
                 colorTable = img.newLayer(colorTable);
                 img.setImg(colorTable);
@@ -37,8 +35,8 @@ function love.load()
 		end
 	);
     menu.button(1200,200,100,40,"Detail image",
-		function() 
-			
+		function()
+
 			colorTable = img.newDetailImage(6);
 			img.setImg(colorTable);
 		end
@@ -54,7 +52,7 @@ function love.load()
 		end
 	);
     menu.button(1310,150,100,40,"Max iter up",
-		function() 
+		function()
             img.mandel.maxIter = img.mandel.maxIter + 100;
             mandelTable = img.newMandel();
 			img.setMandel(mandelTable);
@@ -62,19 +60,19 @@ function love.load()
 		end
 	);
     menu.button(1310,200,100,40,"Max iter down",
-		function() 
+		function()
             img.mandel.maxIter = img.mandel.maxIter - 100;
             mandelTable = img.newMandel();
 			img.setMandel(mandelTable);
 		end
 	);
     menu.button(1310,250,100,40,"Pallete",
-		function() 
+		function()
             img.mandel.iPallete = (img.mandel.iPallete + 1) % img.mandel.nPallete;
 			img.setMandel(mandelTable);
 		end
 	);
-    
+
     --CREATING NEW COLOR PALLETES
     img.mandel.addPallete(
         function(c)
@@ -111,12 +109,17 @@ function love.load()
 
 end
 
-function love.mousepressed(x,y, button)
-	if button == "wu" then
+function love.wheelmoved( x, y )
+	if y > 0 then
 		log.start = math.max(math.min(log.start + 1, #log.entries - (log.max-1)),1);
-	elseif button == "wd" then
-		log.start = math.max(log.start - 1, 1);
-	elseif button ==  "l" then
+    else
+        log.start = math.max(log.start - 1, 1);
+    end
+
+end
+function love.mousepressed(x,y, button)
+    if button ==  1 then
+        log.add("HDIFJSDLKFJ")
         menu.isClicked(x,y);
         if img.curTable == "mandel" then
             if x > 0 and x < img.mandel.width and y > 0 and y < img.mandel.height then
@@ -127,9 +130,8 @@ function love.mousepressed(x,y, button)
         end
 	end
 end
-
 function love.keypressed(key,isrepeat)
-	
+
 	if key == "return" then
 		img.new(seed+1);
 		log.add("new image");

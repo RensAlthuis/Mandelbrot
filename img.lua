@@ -25,7 +25,7 @@ function img.draw()
 	for y, vy in pairs(pixels) do
 		for x, vx in pairs(vy) do
 			love.graphics.setColor(vx);
-			love.graphics.point(x,y);
+			love.graphics.points(x,y);
 		end
 	end
 end
